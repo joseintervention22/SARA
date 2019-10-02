@@ -72,9 +72,22 @@
                 <form method="POST" action="{{route('reembolso.pagar')}}">
                     @csrf
                 <input type="hidden" class="form-control" name="num" id="num" value="{{$reembolso->id}}">
-                   <input type="hidden" class="form-control" name="estado" id="estado" value="4">
-                  <button type="submit" class="btn btn-primary pull-right" style="margin-right: 5px;">
-                    <i class="fa fa-legal"></i> autorizar el pago del reembolso
+                <div class="form-group row">
+                  <div class="col-sm-8">
+                      <label for="estado">Seleccione una Opcion</label>
+                        <select name="estado" id="estado">  
+                          <option value=4>Aceptado</option>
+                          <option value=9>Rechazado</option>        
+                        </select>    
+                  </div>
+              </div>
+          <div class="form-group row">
+              <div class="col-sm-8">
+                  <textarea style="width: 1000px;height: 70px;" name="comentario" id="comentario" placeholder="Ingrese un comentario"></textarea>
+              </div>
+          </div>                  
+          <button type="submit" class="btn btn-primary pull-right" style="margin-right: 5px;">
+                    <i class="fa fa-legal"></i> Aceptar el concepto de reembolso
                   </button>
                 </form>
                 </div>

@@ -91,6 +91,8 @@
             </div>
             <div class="form-group">
             <input type="hidden" name="id" class="form-control" id="id" value="{{$reembolsos->id}}">
+            <input type="hidden" name="estado" class="form-control" id="estado" value="1">
+
             </div>
 
             <div class="form-group row">

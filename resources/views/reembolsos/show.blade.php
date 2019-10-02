@@ -26,34 +26,41 @@
 <table class="table table-hover table-bordered">
         <thead>
             <tr>        
-                <th>Division</th>
                 <th>Reembolso Consecutivo</th>
                 <th>Asignacion</th>
                 <th>Propietario Fondo Fijo</th>
                 <th>Archivo</th>
                 <th>Estado</th>
+                <th>Comentario</th>
                 <th colspan="3">&nbsp;</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($reembolsos as $rm)
             <tr>
-                <td>B114-SB ZONA TEHUANTEPEC</td>
                 <td>{{$rm->consecutivo}}</td>
                 <td>B114</td>
                 <td>{{$rm->agencia->rff}}</td>
                 <td><a href="{{route('reembolso.pdf',$rm->archivo)}}" download="{{route('reembolso.pdf',$rm->archivo)}}">descargar</a></td>
                 @if ($rm->estado==1)
-            <td>Registrado en revision<br>{{$rm->fechac}}</td>
+                <td>Registrado en revision<br>{{$rm->fechac}}</td>
                 @elseif($rm->estado==2)
                 <td>Revisado en espera de firma<br>{{$rm->updated_at}}</td>
                 @elseif($rm->estado==3)
                 <td>Firmado en espera de admin<br>{{$rm->updated_at}}</td>
-            
                 @elseif($rm->estado==4)
                 <td>Revisado a pagar<br>{{$rm->updated_at}}</td>
 
+
+                @elseif($rm->estado==5)
+                <td>Reembolso Rechazado<br>{{$rm->updated_at}}</td>
+                @elseif($rm->estado==6)
+                <td>No se Aprobo el Reembolso<br>{{$rm->updated_at}}</td> 
+                @elseif($rm->estado==7)
+                <td>No se Autorizo en Administracion<br>{{$rm->updated_at}}</td>
+
                 @endif
+                <td>{{$rm->comentario}}</td>
                 <td><a href="{{route('reembolso.detail',$rm->id)}}" class="btn btn-xs btn-primary">
                     <span class="glyphicon glyphicon-envelope"> </span>detalle</a>
 

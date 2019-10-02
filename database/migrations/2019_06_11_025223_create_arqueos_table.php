@@ -29,9 +29,9 @@ class CreateArqueosTable extends Migration
             $table->integer('veinte_cent')->nullable();
             $table->integer('diez_cent')->nullable();
             $table->integer('cinco_cent')->nullable();
-            $table->double('total_efectivo', 8, 2)->nullable();
-            $table->double('total_cheques', 8, 2)->nullable();
-            $table->double('total', 8, 2)->nullable();
+            $table->double('total_efectivo', 12, 3)->nullable();
+            $table->double('total_cheques', 12, 3)->nullable();
+            $table->double('total', 12, 3)->nullable();
             $table->datetime('mes');
             $table->unsignedInteger('arqueo_id');
             $table->unsignedInteger('user_id');

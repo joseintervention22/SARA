@@ -16,7 +16,7 @@
             <div class="form-group row">
                     <div class="col-sm-4">
                         <h4><label for="importefec">Importe en Efectivo</label></h4>
-                        <input type="number" step="any" disabled="disabled" class="form-control"name="importefec"  id="importefec" value={{$arqueo->total_efectivo}} />
+                        <input type="number" step="any" class="form-control"name="importefec"  id="importefec" value={{$arqueo->total_efectivo}} />
                     </div>
 
                     <div class="col-sm-4">
@@ -25,7 +25,7 @@
                         </div>
                     <div class="col-sm-4">
                         <h4><label for="importeche">Importe en Cheques</label></h4>
-                        <input type="text" disabled="disabled" name="importeche" class="form-control" id="importeche" value="{{$arqueo->total_cheques}}">
+                        <input type="text" name="importeche" class="form-control" id="importeche" value="{{$arqueo->total_cheques}}">
                     </div>
             </div>
             <div class="form-group row">
@@ -36,14 +36,14 @@
                     </div>
                     <div class="col-sm-4">
                             <h4><label for="reembolsop">Reembolsos pendientes</label></h4>
-                            <input type="text" name="reembolsop" class="form-control" id="reembolsop" value="0">
+                    <input type="text" name="reembolsop" class="form-control" id="reembolsop" value="{{$pendientes}}" readonly>
                         
                     </div>
 
 
                     <div class="col-sm-4">
                             <h4><label for="documentos">Documentos pagados</label></h4>
-                            <input type="text" name="documentos" class="form-control" id="documentos" value="0">
+                    <input type="text" name="documentos" class="form-control" id="documentos" value="{{$pagados}}" readonly>
         
                     </div>
 
@@ -61,7 +61,7 @@
                 </div>
                 
             </div>
-
+<!--
             <div class="form-group row">
                 <div class="col-sm-4">
                         <h4><label for="comprobado">Total Comprobado</label></h4>
@@ -78,7 +78,7 @@
                         <input type="text" name="diferencia" class="form-control" id="diferencia" value="0">
                 </div>
             </div>
-
+        -->
             <div class="form-group row">
                 <div class="col-sm-6">
                 <input type="hidden" name="arqueo_id" id="arqueo_id" class="form-group" value="{{$arqueo->id}}">

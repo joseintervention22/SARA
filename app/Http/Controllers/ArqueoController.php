@@ -51,8 +51,6 @@ public function store(Request $request){
         'veinte_cent' => 'integer',
         'diez_cent'   => 'integer',
         'cinco_cent'  => 'integer',
-        'total_efectivo'=> 'required',
-        'total_cheques'=> 'required',
         'total'       => 'required',
         'mes'         => 'required',
         'arqueo_id'   => 'required',
@@ -66,7 +64,7 @@ public function store(Request $request){
 
     $mil = $request->input('mil');
         $quinientos = $request->input('quinientos');
-        $doscientos = $request->input('doscientos');
+        $doscientos = $request->input('dociento');
         $cien = $request->input('cien');
         $cincuenta = $request->input('cincuenta');
         $veinte = $request->input('veinte');
@@ -78,9 +76,13 @@ public function store(Request $request){
         $veinte_cent = $request->input('veinte_cent');
         $diez_cent = $request->input('diez_cent');
         $cinco_cent = $request->input('cinco_cent');
-        $total_efectivo = $request->input('total_efectivo');
+        
+        $total_efectivo= $mil*1000+$quinientos*500+$doscientos*200+$cien*100+$cincuenta*50+$veinte*20+$diez*10+$cinco*5+$dos*2+$uno*1+$cincuenta_cent*0.5+$veinte_cent*0.2+$diez_cent*0.1+$cinco_cent*0.05;
+        
+        #$total_efectivo = $request->input('total_efectivo');
         $total_cheques = $request->input('total_cheques');
-        $total = $request->input('total');
+        $total = $total_efectivo+$total_cheques;
+        //$total = $request->input('total');
         $mes = $request->input('mes');
         $arqueo_id = $request->input('arqueo_id');
         $agencia_id = $request->input('agencia_id');
@@ -112,7 +114,7 @@ public function store(Request $request){
 
 
         $arqueo->save();
-        return redirect()->route('arqueo.index')->with(['message' => 'Agregado correctamente']);		
+        return redirect()->route('arqueo.main')->with(['message' => 'Agregado correctamente']);		
 
 
 

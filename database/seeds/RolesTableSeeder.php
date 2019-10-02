@@ -26,5 +26,8 @@ class RolesTableSeeder extends Seeder
 
         $role = Role::create(['name' => 'pago']);
         $role->givePermissionTo('pagar_reembolso');
+
+        $role = Role::create(['name' => 'ofi_fin']);
+        $role->givePermissionTo('ofi_finanza');
     }
 }

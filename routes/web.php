@@ -17,6 +17,26 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::post('/login','Auth\LoginController@login')->name('login');
+
+//RUTAS PARA NOTIFICACIONES EN LA NAVBAR
+
+
+//RUTAS PARA DAR PERMISOS DESDE EL ADMINISTRADOR
+Route::get('/usuarios/lista','AdminController@user')->name('userslists');
+Route::get('/usuario/detalle/{id}','AdminController@detail')->name('user.detail');
+Route::get('/usuario/detalle/update/{id}','AdminController@updateForm')->name('user.detalle.update');
+Route::post('/usuario/detalle/update/admin/{id}','AdminController@updateUser')->name('user.admin.update');
+
+Route::get('/usuario/info/{id}','AdminController@edit')->name('user.info');
+Route::post('/usuario/info/role/{id}','AdminController@updateRole')->name('user.refresh');
+
+//RUTAS ADMINISTRADOR PARA LAS AGENCIAS
+Route::get('/admin/agencias/main','AdminController@agencias')->name('agencia.index');
+Route::get('/admin/agencias/detail/{id}','AdminController@agenciasEdit')->name('agencia.editarf');
+Route::post('/admin/agencias/detail/update/{id}','AdminController@updateAgencia')->name('agencia.update');
+
+
 //RUTAS DE PERFIL DEL USUARIO
 Route::get('/user/profile', 'UserController@profile')->name('user.profile');
 Route::get('/user/edit', 'UserController@edit')->name('user.edit');
@@ -58,20 +78,30 @@ Route::get('/reembolsos/revision/administracion','ReembolsoController@administra
 Route::get('/reembolsos/revision/admin/consecutivo','ReembolsoController@administracion')->name('reembolso.lista.ad.cons');
 Route::get('/reembolso/revision/administracion/{id?}','ReembolsoController@admindetalle')->name('reembolso.admin.detalle');
 Route::post('/reembolsos/pagar', 'ReembolsoController@pagar')->name('reembolso.pagar');
+Route::get('/reembolso/pago/administracion/','ReembolsoController@adminp')->name('reembolso.adminp');
+Route::get('/reembolso/revision/pago/{id?}','ReembolsoController@pagoform')->name('reembolso.pago.detalle');
+Route::post('/reembolsos/administracion/pagar', 'ReembolsoController@pagarfinal')->name('reembolso.pagado');
+
 //RUTAS PARA EL ARQUEO
 Route::get('/arqueo/main','ArqueoController@show')->name('arqueo.main');
 Route::get('/arqueo/index','ArqueoController@index')->name('arqueo.index');
 Route::post('/arqueo/store','ArqueoController@store')->name('arqueo.create');
 //RUTAS PARA LA INTEGRACION DE FONDO
 Route::get('/integration/main','IntegrationController@index')->name('integration.main');
-Route::get('/integration/select/arqueo','IntegrationController@select')->name('integration.select');
-Route::get('/integration/create/{id?}','IntegrationController@create')->name('integration.create');
+Route::get('/integration/select/date','IntegrationController@chooseDate')->name('integration.range');
+Route::post('/integration/send/date','IntegrationController@sendDate')->name('integration.send');
+//Route::get('/integration/select/arqueo','IntegrationController@select')->name('integration.select');
+//indicar el rango de fecha en que se va a sumar el dinero
+Route::get('/integration/create/','IntegrationController@create')->name('integration.create');
 Route::post('/integration/store','IntegrationController@store')->name('integration.store');
 
+//PDF DESCARGABLE DE LA INTEGRACION DEL FONDO FIJO
+Route::get('integration/download/{id}', 'IntegrationController@exportPdf')->name('exporta.pdf');
+
+
+
+
 //busqueda de reembolsos
-
-
-
 //lista de reembolsos ya revisados por el revisor nivel tipo triana
 Route::get('/reembolsos/yarevisados', 'ReembolsoController@revision')->name('reembolso.reviewed');
 
@@ -79,4 +109,13 @@ Route::get('/reembolsos/yarevisados', 'ReembolsoController@revision')->name('ree
 //lista de reembolsos  ya firmados por el jefe de Clientes nivel tipo SOLANO O NURICUMBO
 Route::get('/reembolsos/firmados', 'ReembolsoController@firmados')->name('reembolso.firmados');
 Route::get('/reembolsos/administrados', 'ReembolsoController@administrados')->name('reembolso.administrados');
+//PROCESO DE LA OFICINISTA DE FINANZAS
+Route::get('/reembolsos/finanzas/lista', 'ReembolsoController@oficina')->name('reembolso.finanza');
+Route::get('/reembolsos/revision/finanza/consecutivo','ReembolsoController@oficina')->name('reembolso.finanza.cons');
+Route::get('/reembolso/revision/finanza/{id?}','ReembolsoController@oficinaDetalle')->name('reembolso.finanza.detalle');
+Route::post('/reembolso/revision/finanza/programa','ReembolsoController@oficinaPrograma')->name('reembolso.finanza.programa');
+
+
+
+
 

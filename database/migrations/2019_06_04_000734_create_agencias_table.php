@@ -17,6 +17,7 @@ class CreateAgenciasTable extends Migration
             $table->increments('id');
             $table->string('agencia')->unique();
             $table->string('rff')->nullable();
+            $table->double('fondo',12,3);
             $table->timestamps();
         });
     }

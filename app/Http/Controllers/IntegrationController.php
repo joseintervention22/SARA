@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Arqueo;
 use Illuminate\Support\Facades\Auth;
 use App\Integration;
+use App\Reembolso;
+use Barryvdh\DomPDF\Facade as PDF;
+use Carbon\Carbon;
 
 class IntegrationController extends Controller
 {
@@ -18,7 +21,30 @@ class IntegrationController extends Controller
 
     public function index(){
 
-        return view('integration.mainview');
+
+        $usuario = Auth::id();
+        $integraciones = Integration::where('user_id', '=', $usuario)->get();
+        
+        return view('integration.mainview' , compact('integraciones'));
+    }
+
+    public function chooseDate(){
+
+        return view('integration.chooseDate');
+    }
+
+    public function sendDate(Request $request){
+
+        $inicio = $request->input('inicio');
+        $fin = $request->input('fin');
+
+        $user = Auth::id();
+        $selection = Arqueo::where('user_id','=',$user)->get();
+    
+        return view('integration.selection',compact('selection','inicio','fin'));
+    
+
+
     }
 
     public function select(){
@@ -30,22 +56,40 @@ class IntegrationController extends Controller
 
     }
 
-    public function create($id){
+    public function create(Request $request){
 
+        $user = Auth::id();
+        $id = $request->input('id');
+        $inicio = $request->input('inicio');
+        $fin = $request->input('fin');
         $arqueo = Arqueo::find($id);
-        
-        return view('integration.integration', compact('arqueo'));
+
+        $pendientes = Reembolso::select('importe')
+        ->whereBetween('fechac', [$inicio, $fin])
+        ->where('estado','<=', 3)
+        ->where('user_id','=', $user)
+        ->sum('importe');        
+
+        $pagados = Reembolso::select('importe')
+        ->whereBetween('fechac', [$inicio, $fin])
+        ->where('estado','=', 4)
+        ->where('user_id','=', $user)
+        ->sum('importe');        
+
+
+
+
+        return view('integration.integration', compact('arqueo','pendientes','pagados'));
 
     }
+
+    
 
     public function store(Request $request){
         $user = Auth::id();
         $validate = $this->validate($request,[
             
-            'arqueo_id'  => 'required|integer',
-            'comprobado' => 'required|numeric',
-            'fondo'      => 'required|numeric',
-            'diferencia' => 'required|numeric' 
+            'arqueo_id'  => 'required|integer'
 
         ]);
 
@@ -56,9 +100,9 @@ class IntegrationController extends Controller
         $reembolsop  = $request->input('reembolsop');
         $documentos  = $request->input('documentos');
         $otros       = $request->input('otros');
-        $comprobado  = $request->input('comprobado');
-        $fondo       = $request->input('fondo');
-        $diferencia  = $request->input('diferencia');
+        $comprobado  = $importefec+$importefec+$saldob+$reembolsop+$documentos+$otros;
+        $fondo       = 65000;
+        $diferencia  = $comprobado-$fondo;
         $arqueo_id   = $request->input('arqueo_id');
 
 
@@ -69,7 +113,10 @@ class IntegrationController extends Controller
         $integraciones->reembolsop = $reembolsop;
         $integraciones->documentos = $documentos;
         $integraciones->otros = $otros;
+        
+        
         $integraciones->comprobado = $comprobado;
+        //ESTO ES UN EJEMPLO, ESTO PUEDE CAMBIAR
         $integraciones->fondo = $fondo;
         $integraciones->diferencia = $diferencia;
         $integraciones->arqueo_id = $arqueo_id;
@@ -81,6 +128,38 @@ class IntegrationController extends Controller
         return redirect()->route('integration.main')->with(['message' => 'Agregado correctamente']);
 
 
+
+
+    }
+
+
+    public function exportPdf($id){
+
+        $integracion = Integration::find($id);
+        
+        $mil = $integracion->arqueo->mil * 1000;
+        $quinientos = $integracion->arqueo->quinientos * 500;
+        $doscientos = $integracion->arqueo->doscientos * 200;
+        $cien = $integracion->arqueo->cien * 100;
+        $cincuenta = $integracion->arqueo->cincuenta * 50;
+        $veinte = $integracion->arqueo->veinte * 20;
+
+        $diez = $integracion->arqueo->diez * 10;
+        $cinco = $integracion->arqueo->cinco * 5;
+        $dos = $integracion->arqueo->dos * 2;
+        $uno = $integracion->arqueo->uno * 1;
+
+        $cincuentacent = $integracion->arqueo->cincuenta_cent * 0.5;
+        $veintecent = $integracion->arqueo->veinte_cent * 0.2;
+        $diezcent = $integracion->arqueo->diez_cent * 0.1;
+        $cincocent = $integracion->arqueo->cinco_cent * 0.05;
+
+
+
+        $pdf = PDF::loadView('integration.report',compact('integracion','mil','quinientos'
+        ,'doscientos','cien','cincuenta','veinte','diez','cinco','dos','uno','cincuentacent'
+        ,'veintecent','diezcent','cincocent'))->setPaper('a4','landscape');
+        return $pdf->stream('integracion.pdf');
 
 
     }

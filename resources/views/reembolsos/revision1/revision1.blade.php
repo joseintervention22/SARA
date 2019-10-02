@@ -69,10 +69,27 @@
                 <form method="POST" action="{{route('reembolso.aprobar1')}}">
                     @csrf
                 <input type="hidden" class="form-control" name="num" id="num" value="{{$reembolso->id}}">
-                   <input type="hidden" class="form-control" name="estado" id="estado" value="2">
-                  <button type="submit" class="btn btn-primary pull-right" style="margin-right: 5px;">
-                    <i class="fa fa-legal"></i> Aprobar Reembolso
-                  </button>
+                   <!--<input type="hidden" class="form-control" name="estado" id="estado" value="2">-->
+                   <div class="form-group row">
+                      <div class="col-sm-8">
+                          <label for="estado">Seleccione una Opcion</label>
+                            <select name="estado" id="estado">  
+                              <option value=2>Aceptado</option>
+                              <option value=7>Rechazado</option>        
+                            </select>    
+                      </div>
+                  </div>
+              <div class="form-group row">
+                      <textarea style="width:1000px; height: 100px;"name="comentario" id="comentario" placeholder="Ingrese un comentario"></textarea>
+                
+              </div>
+              <div class="form-group row">
+                  <button type="submit" class="btn btn-primary" style="margin-left: 40%;">
+                      <i class="fa fa-legal"></i> Terminar
+                    </button>
+
+              </div>
+                  
                 </form>
                 </div>
               </div>

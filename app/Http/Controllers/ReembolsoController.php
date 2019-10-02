@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 use App\Mail\ReembolsoCreated;
 use Illuminate\Support\Facades\Mail;
+use App\User;
 class ReembolsoController extends Controller
 {
     
@@ -18,10 +19,8 @@ class ReembolsoController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-
-
-
     }
+
 
     public function create(){
 
@@ -35,6 +34,7 @@ class ReembolsoController extends Controller
     public function store(Request $request){
 
         $user = Auth::id();
+        $name = User::find($user)->name;
 
         
         $validate = $this->validate($request,[
@@ -75,6 +75,7 @@ class ReembolsoController extends Controller
         $reembolsos->fechac      = $fecha;
         $reembolsos->estado      = $estado;
         $reembolsos->user_id     = $user;
+        $reembolsos->registro    = "creado por "."$name".$fecha.",";
 
 
         $archivo = $request->file('archivo');
@@ -111,8 +112,8 @@ class ReembolsoController extends Controller
         $reembolsos = Reembolso::consecutivo($request->get('consecutivo'))
         ->orderBy('id')
         ->where('user_id',$usuario)
-        ->paginate(3);
-        return view('reembolsos.show',compact('reembolsos','reesponsable'));
+        ->paginate(6);
+        return view('reembolsos.showDesign',compact('reembolsos','reesponsable'));
 
 
 
@@ -157,7 +158,10 @@ class ReembolsoController extends Controller
     public function actualizar(Request $request, $id){
 
         $reembolsos = Reembolso::find($id);
+        $registro   = $reembolsos->registro;
         $user = Auth::id();
+        $name = User::find($user)->name;
+
         
         $validate = $this->validate($request,[
             'concepto'    => 'required|string',
@@ -174,6 +178,7 @@ class ReembolsoController extends Controller
         $proveedor    = $request->input('proveedor');
         $importe      = $request->input('importe');
         $fecha        = $request->input('fechac');
+        $estado       = $request->input('estado');
 
             
 
@@ -183,6 +188,8 @@ class ReembolsoController extends Controller
         $reembolsos->importe     = $importe;
         $reembolsos->fechac      = $fecha;
         $reembolsos->user_id     = $user;
+        $reembolsos->estado      = $estado;
+        $reembolsos->registro    = $registro.";actualizado por".$name."; en $fecha ;";
 
 
         $archivo = $request->file('archivo');
@@ -201,7 +208,7 @@ class ReembolsoController extends Controller
 
         $reembolsos->update();
         return redirect()->route('reembolso.show')
-        ->with(['message' => 'Agregado se han actualizado los datos correctamente']);
+        ->with(['message' => 'se han actualizado los datos correctamente']);
 
 
 
@@ -213,11 +220,12 @@ class ReembolsoController extends Controller
     
     public function getAllReembolsos(Request $request){
 
-        $reembolsos = Reembolso::consecutivo($request->get('consecutivo'))->
-        paginate(3);
+        $reembolsos = Reembolso::consecutivo($request->get('consecutivo'))
+        ->where('estado','=',1)
+        ->paginate(5);
 
 
-        return view('reembolsos.showall',compact('reembolsos'));
+        return view('reembolsos.revision1.revisionDesign',compact('reembolsos'));
 
     }
 
@@ -233,29 +241,27 @@ class ReembolsoController extends Controller
     public function aprobar1(Request $request){
 
         $estado = $request->input('estado');
+        $comentario = $request->input('comentario');
         $num = $request->input('num');
        
         $reembolso = Reembolso::find($num);
         $reembolso->estado = $estado;
+        $reembolso->comentario = $comentario;
         $reembolso->save();
        
 
         return redirect()->route('reembolso.all')
-               ->with(['message'=>'se ha aprovado el reembolso y se paso a firma']);
+               ->with(['message'=>'estado actualizado']);
        
-
-
-
-
 
     }
 
     public function firma(Request $request){
         $reembolsos = Reembolso::consecutivo($request->get('consecutivo'))->
-        paginate(3);
+        paginate(5);
 
 
-        return view('reembolsos.firma.show',compact('reembolsos'));
+        return view('reembolsos.firma.showDesign',compact('reembolsos'));
 
 
     }
@@ -271,16 +277,25 @@ class ReembolsoController extends Controller
     }
 
     public function firmar(Request $request){
+        $user = Auth::id();
         $estado = $request->input('estado');
         $num = $request->input('num');
-       
+        $name = User::find($user)->name;
+        $comentario = $request->input('comentario');
+
+
+
         $reembolso = Reembolso::find($num);
+        $registro   = $reembolso->registro;
+        $fecha = $reembolso->updated_at;
+        $reembolso->registro    = $registro." actualizado por".$name." en $fecha ;";
         $reembolso->estado = $estado;
+        $reembolso->comentario = $comentario;
         $reembolso->save();
        
 
         return redirect()->route('reembolso.lista.firma')
-               ->with(['message'=>'se ha firmado el reembolso y se paso a la administracion']);
+               ->with(['message'=>'se ha actualizado el estado del reembolso']);
        
 
     }
@@ -289,11 +304,13 @@ class ReembolsoController extends Controller
     //PARTE DEL PAGO DE LA ADMINISTRACION
 
     public function administracion(Request $request){
-        $reembolsos = Reembolso::consecutivo($request->get('consecutivo'))->
-        paginate(3);
+        $reembolsos = Reembolso::consecutivo($request->get('consecutivo'))
+        ->where('estado','=',3)
+        ->paginate(5);
 
 
-        return view('reembolsos.admin.show',compact('reembolsos'));
+        $pagar = Reembolso::where('estado','=',5)->get();
+        return view('reembolsos.admin.showDesign',compact('reembolsos','pagar'));
 
 
     }
@@ -306,10 +323,18 @@ class ReembolsoController extends Controller
     }
 
     public function pagar(Request $request){
+        $user = Auth::id();
         $estado = $request->input('estado');
         $num = $request->input('num');
-       
+        $name = User::find($user)->name;
+        $comentario = $request->input('comentario');
+
         $reembolso = Reembolso::find($num);
+        $registro   = $reembolso->registro;
+        //$fecha = $reembolso->updated_at;
+        $reembolso->registro    = $registro.";actualizado por".$name.";";
+        $reembolso->comentario = $comentario;
+
         $reembolso->estado = $estado;
         $reembolso->save();
        
@@ -317,6 +342,96 @@ class ReembolsoController extends Controller
         return redirect()->route('reembolso.lista.admin')
                ->with(['message'=>'se ha autorizado el pago del reembolso']);
        
+
+    }
+    public function adminp(){
+
+
+        $pagar = Reembolso::where('estado','=',5)
+        ->paginate(5);
+
+        return view('reembolsos.admin.detallepago',compact('pagar'));
+
+    }
+
+    public function pagoform($id){
+        $reembolso = Reembolso::find($id);
+
+        return view('reembolsos.admin.pago', compact('reembolso'));
+
+
+
+    }
+
+    public function pagarfinal(Request $request){
+        $user = Auth::id();
+        $estado = $request->input('estado');
+        $num = $request->input('num');
+        $name = User::find($user)->name;
+        $comentario = $request->input('comentario');
+
+        $reembolso = Reembolso::find($num);
+        $registro   = $reembolso->registro;
+        //$fecha = $reembolso->updated_at;
+        $reembolso->registro    = $registro.";actualizado por".$name.";";
+        $reembolso->comentario = $comentario;
+
+        $reembolso->estado = $estado;
+        $reembolso->save();
+       
+
+        return redirect()->route('reembolso.lista.admin')
+               ->with(['message'=>'se ha pagado el reembolso']);
+       
+
+
+    }
+
+
+    //INSTRUCCIONES PARA EL USUARIO DEL TIPO OFICINA DE FINANZAS
+
+    public function oficina(Request $request){
+        $reembolsos = Reembolso::consecutivo($request->get('consecutivo'))
+        ->where('estado','=',4)
+        ->paginate(5);
+
+        return view('finanzas.finanzas-index' , compact('reembolsos'));
+
+    }
+
+    public function oficinaDetalle($id){
+        $reembolso = Reembolso::find($id);
+
+        return view('finanzas.detalle', compact('reembolso'));
+    }
+
+
+    public function oficinaPrograma(Request $request){
+
+        $user = Auth::id();
+        $estado = $request->input('estado');
+        $num = $request->input('num');
+        $name = User::find($user)->name;
+        $comentario = $request->input('comentario');
+
+        $reembolso = Reembolso::find($num);
+        $registro   = $reembolso->registro;
+        //$fecha = $reembolso->updated_at;
+        $reembolso->registro    = $registro.";actualizado por".$name.";";
+        $reembolso->comentario = $comentario;
+
+        $reembolso->estado = $estado;
+        $reembolso->save();
+       
+
+        return redirect()->route('reembolso.lista.admin')
+               ->with(['message'=>'se ha programado el pago del reembolso']);
+       
+
+
+
+
+
 
     }
 

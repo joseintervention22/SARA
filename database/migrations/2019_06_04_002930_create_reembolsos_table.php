@@ -18,8 +18,10 @@ class CreateReembolsosTable extends Migration
             $table->unsignedBigInteger('consecutivo');
             $table->string('concepto');
             $table->string('proveedor');
+            $table->string('comentario',400)->nullable();
             $table->float('importe');
             $table->string('archivo');
+            $table->string('registro',1000)->nullable();
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedInteger('agencia_id');

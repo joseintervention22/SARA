@@ -26,8 +26,19 @@
                                 <td>{{$arqueo->agencia->rff}}</td>
                                 <td>{{$arqueo->mes}}</td>
                                 <td>${{$arqueo->total}}</td>
-                                <td><a href="{{route('integration.create',$arqueo->id)}}" class="btn btn-xs btn-primary">
-                                        <span class="glyphicon glyphicon-envelope"> </span>integrar al fondo</a></td>
+                                <td>
+                                <form action="{{route('integration.create')}}" method="get">
+                                
+                                <input name="id" id="id" type="hidden" value="{{$arqueo->id}}">
+                                <input name="inicio" id="inicio" type="hidden" value="{{$inicio}}">
+                                <input name="fin" id="fin" type="hidden" value="{{$fin}}">
+
+                                <button class="btn btn-primary btn-xs" type="submit">Enviar</button>
+                                </form>
+
+
+
+                                </td>
                                 </tr>
                             @endforeach
             

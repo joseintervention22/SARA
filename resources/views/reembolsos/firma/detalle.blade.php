@@ -65,11 +65,27 @@
 
 <div class="row no-print">
         <div class="col-xs-12">
-        <form method="POST" action="{{route('reembolso.firmar')}}">
+        <form method="POST" role="form" action="{{route('reembolso.firmar')}}">
             @csrf
         <input type="hidden" class="form-control" name="num" id="num" value="{{$reembolso->id}}">
-           <input type="hidden" class="form-control" name="estado" id="estado" value="3">
-          <button type="submit" class="btn btn-primary pull-right" style="margin-right: 5px;">
+        <div class="form-group row">
+          <div class="col-sm-8">
+              <label for="estado">Seleccione una Opcion</label>
+                <select name="estado" id="estado">  
+                  <option value=3>Aceptado</option>
+                  <option value=8>Rechazado</option>        
+                </select>    
+          </div>
+      </div>
+  <div class="form-group">
+          <textarea style="width:1000px;" name="comentario" rows="3" id="comentario" placeholder="Ingrese un comentario"></textarea>
+  </div>
+        
+        
+        
+        
+        
+        <button type="submit" class="btn btn-primary pull-right" style="margin-right: 5px;">
             <i class="fa fa-legal"></i> firmar reembolso
           </button>
         </form>

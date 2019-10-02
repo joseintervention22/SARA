@@ -60,42 +60,34 @@
 
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
+          @hasrole('editor')
           <!-- Messages: style can be found in dropdown.less-->
-          <li class="dropdown messages-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-envelope-o"></i>
-              <span class="label label-success">4</span>
-            </a>
-           
-          </li>
+          @include('fragments.messages')
           <!-- Notifications: style can be found in dropdown.less -->
-          <li class="dropdown notifications-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-bell-o"></i>
-              <span class="label label-warning">10</span>
-            </a>
-            
-          </li>
           <!-- Tasks: style can be found in dropdown.less -->
-          <li class="dropdown tasks-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-flag-o"></i>
-              <span class="label label-danger">9</span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="header">You have 9 tasks</li>
-              <li>
-                <!-- inner menu: contains the actual data -->
-                <ul class="menu">
-                
-                  <!-- end task item -->
-                </ul>
-              </li>
-              <li class="footer">
-                <a href="#">View all tasks</a>
-              </li>
-            </ul>
-          </li>
+          @include('fragments.tasks')
+          @endhasrole
+
+
+          @hasrole('revisor')
+          @include('fragments.notifications')
+          @include('fragments.tasks2')
+
+          @endhasrole
+          
+          @hasrole('firma')
+          @include('fragments.firma.notifications')
+          @include('fragments.firma.tasks')
+
+          @endhasrole
+
+          @hasrole('pago')
+          @include('fragments.pago.notifications')
+          @include('fragments.pago.tasks')
+          @endhasrole
+          @hasrole('ofi_fin')
+          @include('fragments.finanzas.notifications')
+          @endhasrole
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -187,8 +179,51 @@
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
+          
+          <ul class="treeview-menu">
+              <li><a href="{{route('home')}}"><i class="fa fa-circle-o"></i>Inicio</a></li>
+              </ul>
+            
          
         </li>
+        @hasrole('administrator')
+        <li class="treeview">
+            <a href="#">
+              <i class="fa fa-money"></i> <span>Usuarios</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+            <li><a href="{{route('userslists')}}"><i class="fa fa-circle-o"></i>Lista</a></li>
+            </ul>
+          </li>
+          <li class="treeview">
+              <a href="#">
+                <i class="fa fa-money"></i> <span>Agencias</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+              <li><a href="{{route('agencia.index')}}"><i class="fa fa-circle-o"></i>Lista</a></li>
+              </ul>
+            </li>
+        @endhasrole
+        @can('ofi_finanza')
+        <li class="treeview">
+            <a href="#">
+              <i class="fa fa-money"></i> <span>Oficina Finanzas</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+            <li><a href="{{route('reembolso.finanza')}}"><i class="fa fa-circle-o"></i>Lista</a></li>
+            </ul>
+          </li>
+          
+        @endcan
 
         @can('crear_reembolso')
         <li class="treeview">
@@ -314,6 +349,7 @@
           </ul>
         </li>
       @endcan
+     
         
       </ul>
     </section>
@@ -350,7 +386,7 @@
 
     </div>
     <strong>ISIC</strong>
-    JRR CAGV
+    Jose Ruiz Regalado
   </footer>
 
   <!-- Control Sidebar -->

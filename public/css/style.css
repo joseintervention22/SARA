@@ -1,0 +1,29 @@
+body{
+
+    background: #000;
+    background-image: url("../images/DSC08232-min(2).jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: #fff;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+
+}
+.color-overlay{
+
+    width: 100%;
+    height: 100%;
+    background: #000;
+    opacity: .7;
+    position: absolute;
+
+}
+
+.container{
+    z-index: 1;
+}
+

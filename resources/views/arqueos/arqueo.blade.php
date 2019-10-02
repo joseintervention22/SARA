@@ -3,9 +3,8 @@
 <div class="col-md-12">
         @include('includes.message')
         @if ($errors->any())
-            <div class="alert alert-danger">
-                <h3 class="box-title">Por favor corrija los errores debajo</h3>
-            </div>
+        @include('includes.errors')
+
         @endif
         <div class="box box-primary">
         <div class="box-header with-border">
@@ -49,39 +48,40 @@
                                         <div class="form-group row">
                                                 <div class="col-sm-6">
                                                     <label for="mil">Billetes de $1000</label>
-                                                        <input type="number" name="mil" class="form-control" id="mil" value="0" >
+                                                        <input type="number" name="mil" class="form-control" id="mil" onchange="sumar(this.value);" >
                                                   
                                                 </div>
                                                 <div class="col-sm-6">
                                                         <label for="quinientos">Billetes de $500</label>
-                                                            <input type="number" name="quinientos" class="form-control" id="quinientos" value="0" >
+                                                            <input type="number" name="quinientos" class="form-control" id="quinientos" onchange="sumar(this.value);" value="0" >
                                                       
                                                 </div>
                                         </div>
                                         <div class="form-group row">
                                                 <div class="col-sm-6">
                                                     <label for="doscientos">Billetes de $200</label>
-                                                        <input type="number" name="dociento" class="form-control" id="dociento" value="0" >
+                                                        <input type="number" name="dociento" class="form-control" id="dociento" onchange="sumar(this.value);" value="0" >
                                                   
                                                 </div>
                                                 <div class="col-sm-6">
                                                         <label for="cien">Billetes de $100</label>
-                                                            <input type="number" name="cien" class="form-control" id="cien" value="0" >
+                                                            <input type="number" name="cien" class="form-control" id="cien" onchange="sumar(this.value);" value="0" >
                                                       
                                                 </div>
                                         </div>
                                         <div class="form-group row">
                                                 <div class="col-sm-6">
                                                     <label for="cincuenta">Billetes de $50</label>
-                                                        <input type="number" name="cincuenta" class="form-control" id="cincuenta" value="0" >
+                                                        <input type="number" name="cincuenta" class="form-control" id="cincuenta" onchange="sumar(this.value);" value="0" >
                                                   
                                                 </div>
                                                 <div class="col-sm-6">
                                                         <label for="veinte">Billetes de $20</label>
-                                                            <input type="number" name="veinte" class="form-control" id="veinte" value="0" >
+                                                            <input type="number" name="veinte" class="form-control" id="veinte" onchange="sumar(this.value);" value="0" >
                                                       
                                                 </div>
                                         </div>
+                                       
 
                             </div>
                           </div>
@@ -176,7 +176,7 @@
                                           <div class="form-group row">
                                                   <div class="col-sm-6">
                                                       <label for="importe_cheques">IMPORTE DE CHEQUES</label>
-                                                          <input type="text" name="importe_cheques" class="form-control cs" id="importe_cheques" value="0" onChange="totalCheques();">
+                                                          <input type="text" name="total_cheques" class="form-control cs" id="importe_cheques" value="0" onChange="totalCheques();">
                                                   </div>
                                                   
                                           </div>
@@ -186,13 +186,10 @@
                       </div>
 
                     <div class="form-group row">
-                        <div class="col-sm-6">
-                            <label for="total_cheques">IMPORTE TOTAL DE CHEQUES</label>
-                            <input type="text" name="total_cheques" class="form-control im" id="total_cheques" value="0" onChange="sumaTotal();" readonly="readonly">
-                        </div>    
+                         
                         <div class="col-sm-6">
                             <label for="total_efectivo">IMPORTE TOTAL EN EFECTIVO</label>
-                            <input type="text" name="total_efectivo" class="form-control im" id="total_efectivo" value="0" onChange="sumaTotal();" readonly="readonly">
+                            <input type="text" name="total_efectivo" class="form-control im" id="total_efectivo">
                         </div>
                         <div class="col-sm-6">
                             <label for="total">IMPORTE TOTAL</label>
@@ -213,6 +210,26 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script>
+   
+    function sumar (valor) {
+    var total = 0;	
+    valor = parseInt(valor); // Convertir el valor a un entero (número).
+	
+    total = document.getElementById('total_efectivo').innerHTML;
+	
+    // Aquí valido si hay un valor previo, si no hay datos, le pongo un cero "0".
+    total = (total == null || total == undefined || total == "") ? 0 : total;
+	
+    /* Esta es la suma. */
+    total = (parseInt(total) + parseInt(valor));
+    console.log(total);
+	
+    // Colocar el resultado de la suma en el control "span".
+    document.getElementById('total_efectivo').innerHTML = total;
+
+
+   }
+   
    /**
    
     //Calcular Importe Total de Cheques
@@ -315,19 +332,7 @@
       });
       $('#total').val(add);
    };
-
-*/
-
-</script>
-
-@endsection
-@section('script')
-    <script type="text/javascript">
-     $(document).ready(function() {
-        $('.js-example-basic-single').select2();
-        $('#mes').datepicker({format: 'yyyy-mm-dd',locale: 'es-es'});
-        //DINERO EN BILLETES
-        $('#collapse1').on('change','#mil','#quinientos',function(){
+    $('#collapse1').on('change','#mil','#quinientos',function(){
 
           var mil = parseInt($('#mil').val()*1000);
           var quinientos = parseInt($('#quinientos').val()*500);
@@ -361,8 +366,29 @@
 
 
           $('#total_efectivo').val(mil+quinientos);
+          function sumar (valor) {
+    var total = 0;	
+    valor = parseInt(valor); // Convertir el valor a un entero (número).
+	
+    total = document.getElementById('spTotal').innerHTML;
+	
+    // Aquí valido si hay un valor previo, si no hay datos, le pongo un cero "0".
+    total = (total == null || total == undefined || total == "") ? 0 : total;
+	
+    /* Esta es la suma. */
+	
+  // Colocar el resultado de la suma en el control "span".
+  
 
-  });
+</script>
+
+@endsection
+@section('script')
+    <script type="text/javascript">
+     $(document).ready(function() {
+        $('.js-example-basic-single').select2();
+        $('#mes').datepicker({format: 'yyyy-mm-dd',locale: 'es-es'});
+        //DINERO EN BILLETES
 
 
 

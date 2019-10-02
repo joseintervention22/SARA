@@ -1,5 +1,6 @@
 @if(session('message'))
 <div class="callout callout-success">
-    {{session('message')}}
+        <h4>Realizado Exitosamente</h4>
+    <p>{{session('message')}}</p>
 </div>
 @endif

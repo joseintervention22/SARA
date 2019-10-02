@@ -10,7 +10,7 @@ class Reembolso extends Model
 
     protected $fillable = [
         'consecutivo','concepto','proveedor',
-        'importe','archivo','user_id','fechac','estado','agencia_id'
+        'importe','archivo','user_id','fechac','estado','agencia_id','comentario','registro'
         
     ];
 

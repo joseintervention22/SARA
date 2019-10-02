@@ -29,5 +29,9 @@ class Arqueo extends Model
         
     }
 
+    public function integration(){
+
+    }
+
 
 }

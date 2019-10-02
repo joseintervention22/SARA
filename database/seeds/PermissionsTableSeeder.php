@@ -16,7 +16,8 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'crear_reembolso']);
       	Permission::create(['name' => 'revisar_reembolso']);
      	Permission::create(['name' => 'firmar_reembolso']);
-     	Permission::create(['name' => 'pagar_reembolso']);
+        Permission::create(['name' => 'pagar_reembolso']);
+        Permission::create(['name' => 'ofi_finanza']);
 
     }
 }
