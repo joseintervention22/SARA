@@ -16,7 +16,7 @@
          <li>Reesponsable de fondo fijo: {{$reembolso->agencia->rff}}</li>
          <li>Concepto de devolucion: {{$reembolso->concepto}}</li>
          <li>Importe: ${{$reembolso->importe}}</li>
-         <li></li>
+         <li> <a href="" class="btn btn-success"> ir al sistema</a> </li>
         </ul>
 </body>
 </html>

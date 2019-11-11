@@ -47,7 +47,7 @@
 
                    <td>{{$reembolso->proveedor}}</td>
                    <td>{{$reembolso->concepto}}</td>
-                   <td> ${{$reembolso->importe}}</td>
+                   <td> ${{number_format($reembolso->importe,2)}}</td>
                    <td>{{$reembolso->user->username}}   {{$reembolso->user->name}}</td>
                    <td>{{$reembolso->agencia->agencia}}</td>
 

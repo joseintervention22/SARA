@@ -66,13 +66,13 @@ class IntegrationController extends Controller
 
         $pendientes = Reembolso::select('importe')
         ->whereBetween('fechac', [$inicio, $fin])
-        ->where('estado','<=', 3)
+        ->where('estado','<', 6)
         ->where('user_id','=', $user)
         ->sum('importe');        
 
         $pagados = Reembolso::select('importe')
         ->whereBetween('fechac', [$inicio, $fin])
-        ->where('estado','=', 4)
+        ->where('estado','>=', 6)
         ->where('user_id','=', $user)
         ->sum('importe');        
 
@@ -89,30 +89,36 @@ class IntegrationController extends Controller
         $user = Auth::id();
         $validate = $this->validate($request,[
             
-            'arqueo_id'  => 'required|integer'
+            'arqueo_id'  => 'required|integer',
+            'vales'      => 'required',
+            'pagados'    => 'required'
 
         ]);
 
 
+        $pagados     = $request->input('pagados'); 
         $importefec  = $request->input('importefec');
+        $vales       = $request->input('vales');
         $importeche  = $request->input('importeche');
         $saldob      = $request->input('saldob');
         $reembolsop  = $request->input('reembolsop');
         $documentos  = $request->input('documentos');
         $otros       = $request->input('otros');
-        $comprobado  = $importefec+$importefec+$saldob+$reembolsop+$documentos+$otros;
-        $fondo       = 65000;
-        $diferencia  = $comprobado-$fondo;
+        $comprobado  = $importeche+$importefec+$saldob+$reembolsop+$documentos+$otros+$vales+$pagados;
         $arqueo_id   = $request->input('arqueo_id');
+        $arqueo      = Arqueo::find($arqueo_id);
+        $fondo       = $arqueo->agencia->fondo;
+        $diferencia  = $comprobado-$fondo;
 
 
         $integraciones = new Integration();
         $integraciones->importefec = $importefec;
+        $integraciones->vales      = $vales;
         $integraciones->importeche = $importeche;
-        $integraciones->saldob = $saldob;
+        $integraciones->saldob     = $saldob;
         $integraciones->reembolsop = $reembolsop;
         $integraciones->documentos = $documentos;
-        $integraciones->otros = $otros;
+        $integraciones->otros      = $otros;
         
         
         $integraciones->comprobado = $comprobado;
@@ -122,9 +128,10 @@ class IntegrationController extends Controller
         $integraciones->arqueo_id = $arqueo_id;
         $integraciones->user_id = $user;
 
+       
         $integraciones->save();
 
-
+       
         return redirect()->route('integration.main')->with(['message' => 'Agregado correctamente']);
 
 

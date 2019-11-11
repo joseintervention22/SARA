@@ -22,8 +22,8 @@
 
                         <div class="form-group">
                                 <div class="col-sm-6">
-                                    <label for="rff">Fondo Fijo</label>
-                                <input type="text" name="fondof" class="form-control" id="fondof" placeholder="Ingrese el fondo fijo" value="">
+                                    <label for="fondo">Fondo Fijo</label>
+                                <input type="text" name="fondo" class="form-control" id="fondo" placeholder="Ingrese el fondo fijo" value="">
             
                                 </div>
                                 

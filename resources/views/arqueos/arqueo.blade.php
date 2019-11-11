@@ -187,15 +187,7 @@
 
                     <div class="form-group row">
                          
-                        <div class="col-sm-6">
-                            <label for="total_efectivo">IMPORTE TOTAL EN EFECTIVO</label>
-                            <input type="text" name="total_efectivo" class="form-control im" id="total_efectivo">
-                        </div>
-                        <div class="col-sm-6">
-                            <label for="total">IMPORTE TOTAL</label>
-                            <input type="text" name="total" class="form-control" id="total" value="0" readonly="readonly">
-                        </br></br>
-                        </div>
+                       
                     </div>
 
                     <div class="form-group row">

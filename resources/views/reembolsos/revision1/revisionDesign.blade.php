@@ -1,26 +1,26 @@
 @extends('layouts.plantilla')
 @section('content')
-@include('includes.message')
+<div class="col-md-12">
+        @include('includes.message')
+</div>
 <div class="col-md-2">
-                <div class="box box-solid">
-                                <div class="box-header with-border">
-                                  <h3 class="box-title">Revision</h3>
-                    
-                                  <div class="box-tools">
-                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                                    </button>
-                                  </div>
-                                </div>
-                                <div class="box-body no-padding">
-                                        <ul class="nav nav-pills nav-stacked">
-                                                <li class="active"><a><i class="fa fa-inbox"></i> revise
-                                                    <span class="label label-primary pull-right">{{count($reembolsos)}}</span></a></li>
-                                                    <li><a><i class="fa fa-envelope-o"></i> Firme</a></li>
-                                                    <li><a><i class="fa fa-file-text-o"></i> Envie Correccion</a></li>
-                
-                                        </ul>
-                                </div>    
+        <div class="box box-solid">
+                <div class="box-header with-border">
+                        <h3 class="box-title">Revision</h3>
+                          <div class="box-tools">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                         </div>
+                </div>
+                <div class="box-body no-padding">
+                        <ul class="nav nav-pills nav-stacked">
+                                <li class="active"><a><i class="fa fa-inbox"></i> revise
+                                <span class="label label-primary pull-right">{{count($reembolsos)}}</span></a></li>
+                                <li><a><i class="fa fa-envelope-o"></i> Firme</a></li>
+                                <li><a><i class="fa fa-file-text-o"></i> Envie Correccion</a></li>
+                
+                        </ul>
+                </div>    
+</div>
 
 </div>
 

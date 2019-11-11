@@ -26,6 +26,15 @@
 	<link rel="stylesheet" type="text/css" href={{asset("css/util.css")}}>
 	<link rel="stylesheet" type="text/css" href={{asset("css/main.css")}}>
 <!--===============================================================================================-->
+<style>
+	.logo{
+		margin-left: 20px;
+		margin-top: -320px;
+		width: 400px;
+	
+	
+	}
+	</style>
 </head>
 <body style="background-color: #666666;">
 	
@@ -35,7 +44,9 @@
                 <form class="login100-form validate-form" method="POST" action="{{ route('register') }}">
 					<span class="login100-form-title p-b-43">
                     Registrese    
-                    </span>
+					</span>
+					<img class="logo" src="images/miu.png" alt="">
+
 					@csrf
 
 					

@@ -1,7 +1,8 @@
 @extends('layouts.plantilla')
 @section('content')
-@include('includes.message')
-
+<div class="col-md-12">
+        @include('includes.message')
+</div>
         
     <div class="col-md-10">
         <div class="box box-primary">

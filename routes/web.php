@@ -10,12 +10,20 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+//contraseña para gmail pzrwpmfpqzeojrbb
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
 
 Auth::routes();
+
+Route::get('/reembolsos/registros','ReembolsoController@logs')->name('reembolso.log');
+Route::get('/reembolsos/registro/asinc','ReembolsoController@logReembolso')->name('reembolso.asinc');
+Route::get('/reembolsos/detalle/asinc','ReembolsoController@logReembolso')->name('reembolso.asdetail');
+Route::get('ajaxdata/fetchdata', 'ReembolsoController@fetchdata')->name('ajaxdata.fetchdata');
+
+
 
 Route::post('/login','Auth\LoginController@login')->name('login');
 

@@ -80,15 +80,18 @@ class AdminController extends Controller
         
         $validate = $this->validate($request,[
             
-            'rff'      => 'required|string|max:120'
-            
+            'rff'      => 'required|string|max:120',
+            'fondo'    => 'required|numeric'
+             
         ]);
 
         //OBTENGO LOS INPUT
         $agencia = Agencia::find($id);
         $rff     = $request->input('rff');
+        $fondo   = $request->input('fondo');
 
-        $agencia->rff = $rff;
+        $agencia->rff   = $rff;
+        $agencia->fondo = $fondo;
         $agencia->update();
 
         return redirect()->route('agencia.index')

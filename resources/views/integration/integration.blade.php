@@ -16,7 +16,7 @@
             <div class="form-group row">
                     <div class="col-sm-4">
                         <h4><label for="importefec">Importe en Efectivo</label></h4>
-                        <input type="number" step="any" class="form-control"name="importefec"  id="importefec" value={{$arqueo->total_efectivo}} />
+                        <input type="number" step="any" class="form-control"name="importefec"  id="importefec" value={{number_format($arqueo->total_efectivo,2)}} />
                     </div>
 
                     <div class="col-sm-4">
@@ -25,7 +25,7 @@
                         </div>
                     <div class="col-sm-4">
                         <h4><label for="importeche">Importe en Cheques</label></h4>
-                        <input type="text" name="importeche" class="form-control" id="importeche" value="{{$arqueo->total_cheques}}">
+                        <input type="text" name="importeche" class="form-control" id="importeche" value="{{number_format($arqueo->total_cheques,2)}}">
                     </div>
             </div>
             <div class="form-group row">
@@ -42,8 +42,8 @@
 
 
                     <div class="col-sm-4">
-                            <h4><label for="documentos">Documentos pagados</label></h4>
-                    <input type="text" name="documentos" class="form-control" id="documentos" value="{{$pagados}}" readonly>
+                            <h4><label for="documentos">Documentos pagados Pendientes de dato</label></h4>
+                    <input type="text" name="documentos" class="form-control" id="documentos" value="0">
         
                     </div>
 
@@ -51,6 +51,11 @@
             </div>
 
             <div class="form-group row">
+                    <div class="col-sm-4">
+                            <h4><label for="pagados">Reembolsos pagados</label></h4>
+                    <input type="text" name="pagados" class="form-control" id="pagados" value="{{number_format($pagados,2)}}">
+        
+                    </div>
                 <div class="col-sm-8">
                         <h4><label for="otros">Otros Valores</label></h4>
                         <input type="text" name="otros" class="form-control" id="otros" value="0">

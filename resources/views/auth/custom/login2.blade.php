@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Login V18</title>
+	<title>Login CFE-SARA</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
@@ -26,13 +26,23 @@
 	<link rel="stylesheet" type="text/css" href={{asset("css/util.css")}}>
 	<link rel="stylesheet" type="text/css" href={{asset("css/main.css")}}>
 <!--===============================================================================================-->
+<style>
+.logo{
+	margin-left: 70px;
+	margin-top: -120px;
+	width: 300px;
+
+
+}
+</style>
 </head>
-<body style="background-color: #666666;">
+<body style="background-color: #ffffff;">
 	
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
                 <form class="login100-form validate-form" method="POST" action="{{ route('login') }}">
+					<img class="logo" src="images/miu.png" alt="">
 					<span class="login100-form-title p-b-43">
                     Iniciar Sesion    
 					</span>
@@ -76,7 +86,7 @@
 					
 				</form>
 
-				<div class="login100-more" style="background-image: url('images/DSC08232-min(2).jpg');">
+				<div class="login100-more" style="background-image: url('images/electricidad.jpg');">
 				</div>
 			</div>
 		</div>

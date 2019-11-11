@@ -38,7 +38,7 @@ class ReembolsoController extends Controller
 
         
         $validate = $this->validate($request,[
-            'consecutivo' => 'required|integer|unique:reembolsos',
+            'consecutivo' => 'required|integer|unique:reembolsos|min:5',
             'concepto'    => 'required|string',
             'proveedor'   => 'required|string',
             'importe'     => 'required|numeric',
@@ -75,12 +75,18 @@ class ReembolsoController extends Controller
         $reembolsos->fechac      = $fecha;
         $reembolsos->estado      = $estado;
         $reembolsos->user_id     = $user;
-        $reembolsos->registro    = "creado por "."$name".$fecha.",";
+        $reembolsos->registro    = "creado por "."$name en ".$fecha.",";
 
 
         $archivo = $request->file('archivo');
-
-
+        //BUSCAR DATOS DE USUARIOS SEGUN SU ROL
+        $editor = User::whereHas("roles", function($q){ $q->where("name", "editor"); })->get();
+        /** 
+        foreach ($editor as $email) {
+            //$correo = $email->email;
+            $correo = "test-iyjbo@mail-tester.com";
+        }
+        *****/
         if($archivo){
             
             $archivo_ruta = time().$archivo->getClientOriginalName();
@@ -92,8 +98,8 @@ class ReembolsoController extends Controller
         }
 
 
+        //Mail::to($correo)->send(new ReembolsoCreated($reembolsos));
         $reembolsos->save();
-        //Mail::to('joseintervention@gmail.com')->send(new ReembolsoCreated($reembolsos));
         return redirect()->route('reembolso.create')->with(['message' => 'Agregado correctamente']);
 
 
@@ -189,7 +195,7 @@ class ReembolsoController extends Controller
         $reembolsos->fechac      = $fecha;
         $reembolsos->user_id     = $user;
         $reembolsos->estado      = $estado;
-        $reembolsos->registro    = $registro.";actualizado por".$name."; en $fecha ;";
+        $reembolsos->registro    = $registro." actualizado por ".$name." en $fecha ,";
 
 
         $archivo = $request->file('archivo');
@@ -211,6 +217,50 @@ class ReembolsoController extends Controller
         ->with(['message' => 'se han actualizado los datos correctamente']);
 
 
+
+
+    }
+    public function logs(){
+
+        $reembolsos = Reembolso::all();
+        return view('reembolsos.reembolsos', compact('reembolsos'));
+
+
+
+    }
+    
+    public function logReembolso(){
+
+        $reembolsos = Reembolso::all();
+    
+    return datatables()
+           ->eloquent(Reembolso::query())
+           ->addColumn('action',function($reembolsos){
+            return '<a href="#" class="btn btn-xs btn-primary edit" id="' . $reembolsos->id . '>
+            <i class="glyphicon glyphicon-edit"></i> detalle</a>';
+
+           })
+           ->toJson();
+    
+    }
+
+    public function fetchdata(Request $request){
+        $id = $request->input('id');
+        $reembolso = Reembolso::find($id);
+        $register  = explode(",",$reembolso->registro);
+            $registro = implode("'\n'",$register);
+        
+        
+
+        $output   = [
+            'consecutivo' => $reembolso->consecutivo,
+            'concepto'    => $reembolso->concepto,
+            'importe'     => number_format($reembolso->importe,2),
+            'registro'    => $registro
+
+
+        ];
+        echo json_encode($output);
 
 
     }
@@ -239,13 +289,17 @@ class ReembolsoController extends Controller
     }
 
     public function aprobar1(Request $request){
-
+        $user = Auth::id();
         $estado = $request->input('estado');
         $comentario = $request->input('comentario');
         $num = $request->input('num');
+        $name = User::find($user)->name;
        
         $reembolso = Reembolso::find($num);
+        $registro   = $reembolso->registro;
         $reembolso->estado = $estado;
+        $fecha = $reembolso->updated_at;
+        $reembolso->registro    = $registro." actualizado por ".$name." en $fecha ,";
         $reembolso->comentario = $comentario;
         $reembolso->save();
        
@@ -288,7 +342,7 @@ class ReembolsoController extends Controller
         $reembolso = Reembolso::find($num);
         $registro   = $reembolso->registro;
         $fecha = $reembolso->updated_at;
-        $reembolso->registro    = $registro." actualizado por".$name." en $fecha ;";
+        $reembolso->registro    = $registro." actualizado por ".$name." en $fecha ,";
         $reembolso->estado = $estado;
         $reembolso->comentario = $comentario;
         $reembolso->save();
@@ -330,9 +384,10 @@ class ReembolsoController extends Controller
         $comentario = $request->input('comentario');
 
         $reembolso = Reembolso::find($num);
+        $fecha = $reembolso->updated_at;
         $registro   = $reembolso->registro;
         //$fecha = $reembolso->updated_at;
-        $reembolso->registro    = $registro.";actualizado por".$name.";";
+        $reembolso->registro    = $registro." actualizado por ".$name." en $fecha,";
         $reembolso->comentario = $comentario;
 
         $reembolso->estado = $estado;
@@ -371,9 +426,10 @@ class ReembolsoController extends Controller
         $comentario = $request->input('comentario');
 
         $reembolso = Reembolso::find($num);
+        $fecha = $reembolso->updated_at;
         $registro   = $reembolso->registro;
         //$fecha = $reembolso->updated_at;
-        $reembolso->registro    = $registro.";actualizado por".$name.";";
+        $reembolso->registro    = $registro." actualizado por ".$name." en $fecha,";
         $reembolso->comentario = $comentario;
 
         $reembolso->estado = $estado;
@@ -416,8 +472,8 @@ class ReembolsoController extends Controller
 
         $reembolso = Reembolso::find($num);
         $registro   = $reembolso->registro;
-        //$fecha = $reembolso->updated_at;
-        $reembolso->registro    = $registro.";actualizado por".$name.";";
+        $fecha = $reembolso->updated_at;
+        $reembolso->registro    = $registro." actualizado por ".$name." en $fecha,";
         $reembolso->comentario = $comentario;
 
         $reembolso->estado = $estado;

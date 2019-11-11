@@ -51,7 +51,6 @@ public function store(Request $request){
         'veinte_cent' => 'integer',
         'diez_cent'   => 'integer',
         'cinco_cent'  => 'integer',
-        'total'       => 'required',
         'mes'         => 'required',
         'arqueo_id'   => 'required',
         'agencia_id'  => 'required'

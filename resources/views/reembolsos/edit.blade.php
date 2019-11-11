@@ -19,6 +19,12 @@
                         <label for="concepto">CONCEPTO</label>
                         <select name="concepto" id="concepto" class="js-example-basic-single" style="width: 100%;">
                             <option value="comisionista">Comisionista</option>
+                            <option value="PAGO PSI">PAGO PSI</option>
+                            <option value="PAGO COMBUSTIBLE">PAGO COMBUSTIBLE</option>
+                            <option value="PAGO LIMPIEZA">PAGO LIMPIEZA</option>
+                            <option value="PAGO REPARTO">PAGO REPARTO</option>
+                            <option value="PAGO PERIFONEO">PAGO PERIFONEO</option>
+                        
                         </select>
                     </div>
             

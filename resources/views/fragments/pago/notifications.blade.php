@@ -15,7 +15,7 @@
               <li><!-- start message -->
               <a href="{{route('reembolso.admin.detalle',$item->id)}}">
                   <div class="pull-left">
-                  <img src="{{asset("images/refound.jpg")}}" class="img-circle" alt="User Image">
+                  <img src="{{asset("images/refund-money-icon-vector-20470852.jpg")}}" class="img-circle" alt="User Image">
                   </div>
                   <h4>
                      Reembolso consecutivo {{$item->consecutivo}}       

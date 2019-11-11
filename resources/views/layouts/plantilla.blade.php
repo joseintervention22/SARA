@@ -9,6 +9,8 @@
   <!-- Bootstrap 3.3.7 -->
   <!-- Bootstrap 3.3.7 -->
 <link rel="stylesheet" href={{asset("bower_components/bootstrap/dist/css/bootstrap.min.css")}}>
+ <!-- DataTables -->
+ <link rel="stylesheet" href={{asset("bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css")}}>
 <!-- Font Awesome -->
 <link rel="stylesheet" href={{asset("bower_components/font-awesome/css/font-awesome.min.css")}}>
 <!-- Ionicons -->
@@ -29,6 +31,7 @@
 <link rel="stylesheet" href={{asset("bower_components/bootstrap-daterangepicker/daterangepicker.css")}}>
 <!-- bootstrap wysihtml5 - text editor -->
 <link rel="stylesheet" href={{asset("plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css")}}>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap.min.css">
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -246,6 +249,14 @@
             </span>
           </a>
         </li>
+        <li>
+          <a href="{{route('reembolso.log')}}">
+              <i class="fa fa-th"></i> <span>Registros</span>
+              <span class="pull-right-container">
+                <small class="label pull-right bg-green">ver</small>
+              </span>
+            </a>
+          </li>
 
         <li class="treeview">
             <a href="#">
@@ -289,6 +300,14 @@
               <li><a href="{{route('reembolso.reviewed')}}"><i class="fa fa-search"></i> Reembolsos ya revisados</a></li>
               </ul>
             </li>
+            <li>
+              <a href="{{route('reembolso.log')}}">
+                  <i class="fa fa-th"></i> <span>Registros</span>
+                  <span class="pull-right-container">
+                    <small class="label pull-right bg-green">ver</small>
+                  </span>
+                </a>
+              </li>
           @endcan
 
           @can('firmar_reembolso')
@@ -317,6 +336,14 @@
               </ul>
               
             </li>
+            <li>
+              <a href="{{route('reembolso.log')}}">
+                  <i class="fa fa-th"></i> <span>Registros</span>
+                  <span class="pull-right-container">
+                    <small class="label pull-right bg-green">ver</small>
+                  </span>
+                </a>
+              </li>
             
             @endcan
 
@@ -348,6 +375,14 @@
             
           </ul>
         </li>
+        <li>
+          <a href="{{route('reembolso.log')}}">
+              <i class="fa fa-th"></i> <span>Registros</span>
+              <span class="pull-right-container">
+                <small class="label pull-right bg-green">ver</small>
+              </span>
+            </a>
+          </li>
       @endcan
      
         
@@ -393,8 +428,14 @@
   
   <!-- /.control-sidebar -->
   <!-- Add the sidebar's background. This div must be placed
-       immediately after the control sidebar -->
+       immediately after the control sidebar 
+      <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap.min.js"></script>
+      
+      -->
 </div>
+
 <!-- ./wrapper -->
 <script src={{asset("bower_components/jquery/dist/jquery.min.js")}}></script>
 
@@ -409,6 +450,9 @@
 </script>
 <!-- Bootstrap 3.3.7 -->
 <script src={{asset("bower_components/bootstrap/dist/js/bootstrap.min.js")}}     ></script>
+<!-- DataTables -->
+<script src={{asset("bower_components/datatables.net/js/jquery.dataTables.min.js")}}></script>
+<script src={{asset("bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js")}}></script>
 <!-- Morris.js charts -->
 <script src={{asset("bower_components/raphael/raphael.min.js")}}     ></script>
 <!-- Sparkline -->

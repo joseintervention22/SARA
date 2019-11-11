@@ -8,6 +8,7 @@
 <div class="box-header with-border">
 
         <h3>Agencias en el Sistema</h3>
+        <a href="" class="btn btn-primary btn-sm pull-right">Registre agencia</a>
 
 </div>
 <div class="box-body">
@@ -17,6 +18,7 @@
             <tr>        
                 <th>Agencia</th>
                 <th>Responsable de Fondo Fijo</th>
+                <th>FONDO FIJO ASIGNADO</th>
                 <th colspan="3">&nbsp;</th>
             </tr>
         </thead>
@@ -25,6 +27,7 @@
                 <tr>
                 <td>{{$agencia->agencia}}</td>
                 <td>{{$agencia->rff}}</td>
+                <td>{{$agencia->fondo}}</td>
                 <td><a href="{{route('agencia.editarf',$agencia->id)}}" class="btn btn-primary btn-sm">EDITAR</a></td>
                 
                 </tr>

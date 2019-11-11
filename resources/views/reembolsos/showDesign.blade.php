@@ -1,6 +1,9 @@
 @extends('layouts.plantilla')
 @section('content')
-@include('includes.message')
+<div class="col-md-12">
+        @include('includes.message')
+
+</div>
 <div class="col-md-2">
     <a href="{{route('reembolso.create')}}" class="btn btn-primary btn-block margin-bottom">Nuevo</a>
 </div>
@@ -61,10 +64,16 @@
                                     <td><a href="{{route('reembolso.pdf',$rm->archivo)}}" download="{{route('reembolso.pdf',$rm->archivo)}}">descargar</a></td>
                                     <td class="mailbox-date">{{$rm->comentario}}</td>
 
-
-                                    
+                                    @if ($rm->estado==6)
+                                        <td></td>
+                                    @else
                                     <td><a class="btn btn-xs btn-success" href="{{route('reembolso.actualizar',$rm->id)}}">
-                                            <span class="glyphicon glyphicon-pencil"> </span>editar</a>  </td>
+                                        <span class="glyphicon glyphicon-pencil"> </span>editar</a>  
+                                    </td>
+
+                                    @endif
+                                    
+                                    
                                    
                                     
                                 </tr>
