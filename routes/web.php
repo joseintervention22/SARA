@@ -43,6 +43,8 @@ Route::post('/usuario/info/role/{id}','AdminController@updateRole')->name('user.
 Route::get('/admin/agencias/main','AdminController@agencias')->name('agencia.index');
 Route::get('/admin/agencias/detail/{id}','AdminController@agenciasEdit')->name('agencia.editarf');
 Route::post('/admin/agencias/detail/update/{id}','AdminController@updateAgencia')->name('agencia.update');
+Route::get('/admin/agencias/create','AdminController@showFormAgencia')->name('agencia.create');
+Route::post('/admin/agencias/new','AdminController@createAgencia')->name('agencia.new');
 
 
 //RUTAS DE PERFIL DEL USUARIO

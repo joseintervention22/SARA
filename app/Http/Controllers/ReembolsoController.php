@@ -81,12 +81,9 @@ class ReembolsoController extends Controller
         $archivo = $request->file('archivo');
         //BUSCAR DATOS DE USUARIOS SEGUN SU ROL
         $editor = User::whereHas("roles", function($q){ $q->where("name", "editor"); })->get();
-        /** 
-        foreach ($editor as $email) {
-            //$correo = $email->email;
-            $correo = "test-iyjbo@mail-tester.com";
-        }
-        *****/
+        
+        
+        
         if($archivo){
             
             $archivo_ruta = time().$archivo->getClientOriginalName();
@@ -97,8 +94,12 @@ class ReembolsoController extends Controller
 
         }
 
+        //foreach ($editor as $email) {
+            //$correo = $email->email;
+          //  $correo = $email->email;
+            //Mail::to($correo)->send(new ReembolsoCreated($reembolsos));
 
-        //Mail::to($correo)->send(new ReembolsoCreated($reembolsos));
+        //}
         $reembolsos->save();
         return redirect()->route('reembolso.create')->with(['message' => 'Agregado correctamente']);
 

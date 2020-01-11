@@ -54,7 +54,7 @@
                 <div class="form-group {{$errors->has('importe') ? 'has-error' : ''}}"">
                         <div class="col-sm-4">
                             <label for="importe">IMPORTE</label>
-                        <input type="number" step="0.1" name="importe" class="form-control" id="importe" placeholder="registre el importe total del reembolso" value="{{old('importe')}}">
+                        <input type="number" step="0.01" name="importe" class="form-control" id="importe" placeholder="registre el importe total del reembolso" value="{{old('importe')}}">
                         {!! $errors->first('importe','<span class="help-block">:message </span>') !!}
 
                         </div>

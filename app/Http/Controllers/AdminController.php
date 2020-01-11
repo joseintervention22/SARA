@@ -103,6 +103,39 @@ class AdminController extends Controller
 
     }
 
+    public function showFormAgencia(){
+
+        return view("admin.agencias.agenciacreate");
+    }
+
+    public function createAgencia(Request $request){
+
+        $validate = $this->validate($request,[
+            'agencia'  => 'required|string',
+            'rff'      => 'required|string|max:120',
+            'fondo'    => 'required|numeric'
+             
+        ]);
+        //OBTENGO LOS INPUT
+        $agencia = new Agencia();
+
+        $name = $request->input("agencia");
+        $rff  = $request->input("rff");
+        $fondo = $request->input("fondo");
+
+        $agencia->agencia = $name;
+        $agencia->rff     = $rff;
+        $agencia->fondo   = $fondo;
+        
+        $agencia->save();
+        
+        return redirect()->route('agencia.create')
+        ->with(['message'=>'Agregado Correctamente']);
+
+
+
+    }
+
     public function updateUser(Request $request, $id){
 
 

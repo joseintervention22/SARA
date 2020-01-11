@@ -8,7 +8,7 @@
 <div class="box-header with-border">
 
         <h3>Agencias en el Sistema</h3>
-        <a href="" class="btn btn-primary btn-sm pull-right">Registre agencia</a>
+<a href="{{route('agencia.create')}}" class="btn btn-primary btn-sm pull-right">Registre agencia</a>
 
 </div>
 <div class="box-body">
